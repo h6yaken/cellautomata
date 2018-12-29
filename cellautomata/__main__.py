@@ -48,11 +48,12 @@ def run(road_length, car_num, time):
     # 車列の間隔が均等になるまでの時間
     await_time = 10
     for var in range(time):
+        print(car_line)
         tmp_car_line = car_line
         return_value = advance(tmp_car_line, road_length)
         car_line = return_value[0]
         if var > (await_time - 1):
-            sum_amount_flow += return_value[1]
+            sum_amount_flow += return_value[1] / road_length
 
     amount_flow = sum_amount_flow / (time - await_time)
     return amount_flow
@@ -63,15 +64,17 @@ if __name__ == '__main__':
     car_num = 15
     # 車列の間隔が均等になるまで待つ必要があるので、20以上を設定する
     time = 100
-    print("road_length： " + str(road_length))
-    print("car_num    ： " + str(car_num))
-    print("time       ： " + str(time) + "\n")
-
-    density = car_num / road_length
-    print("density    ： " + str(density))
-
     repeat_time = 1
     sum_amount_flow = 0
     for var in range(repeat_time):
         sum_amount_flow += run(road_length, car_num, time)
+
+    print("========================================")
+    print("road_length： " + str(road_length))
+    print("car_num    ： " + str(car_num))
+    # print("time       ： " + str(time) + "\n")
+
+    density = car_num / road_length
+    print("density    ： " + str(density))
+
     print("amount_flow： " + str(sum_amount_flow / repeat_time))
