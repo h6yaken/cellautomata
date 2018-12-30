@@ -13,6 +13,8 @@ class CarLine():
         # Carクラスの入れ物
         self.cars = list()
 
+        self.make_line()
+
     # 車列をつくる
     def make_line(self):
         self.cars = [Car() for var in range(self.num)]
@@ -53,6 +55,29 @@ class CarLine():
             if not is_found_car_in_front:
                 current_car.set_status(1)
 
+    def advance(self):
+        # 前に車がいたら止まる、いなかったら進む単純ケース
+        car_locations = [car.location for car in self.cars]
+        for current_car in self.cars:
+            if current_car.location == (self.length - 1):
+                if 0 in car_locations:
+                    continue
+
+                current_car.location = 0
+
+            else:
+                # 前に車がいた場合は進めない
+                if (current_car.location + 1) in car_locations:
+                    continue
+
+                current_car.location += 1
+
+    def advance_slow_start(self):
+        # 前に車がいたらとまる。走っているステータスの場合は、止まるへ変える
+        # いなかったら、走っているステータスに変える
+        # 前に車がいない かつ、走っているステータスの場合、前に進むというケース
+        None
+
     def print(self):
         line = [0] * self.length
         for car in self.cars:
@@ -69,7 +94,7 @@ class CarLine():
 class Car():
     def __init__(self):
         # 止まっている：0、走っている：1
-        self.status = 0
+        self.status = int()
         # 車列のどこにいるか
         self.location = int()
 
@@ -78,9 +103,3 @@ class Car():
 
     def set_status(self, status):
         self.status = status
-
-
-car_line = CarLine(20, 10)
-car_line.make_line()
-car_line.print()
-car_line.print_status()
