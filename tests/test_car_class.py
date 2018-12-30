@@ -14,6 +14,7 @@ def test_car_line_class():
     for car in car_line.cars:
         assert 0 <= car.location <= CAR_LINE_LENGTH - 1
 
+    # advanceのテスト
     CAR_NUM = 2
     car_line = car_class.CarLine(CAR_LINE_LENGTH, CAR_NUM)
     assert len(car_line.cars) == CAR_NUM
@@ -40,6 +41,75 @@ def test_car_line_class():
     car_line.advance()
     assert car_line.cars[0].location == 11
     assert car_line.cars[1].location == 0
+
+    # advance_slow_startのテスト
+    CAR_NUM = 2
+    car_line = car_class.CarLine(CAR_LINE_LENGTH, CAR_NUM)
+    assert len(car_line.cars) == CAR_NUM
+    # 前に車がいない/走っているステータスの場合、前に進む
+    car_line.cars[0].location = 1
+    car_line.cars[0].status = 0
+    car_line.cars[1].location = 2
+    car_line.cars[1].status = 1
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 1
+    assert car_line.cars[0].status == 0
+    assert car_line.cars[1].location == 3
+    assert car_line.cars[1].status == 1
+
+    # 前に車がいない/止まっているステータスの場合、ステータスを走っている状態へ変える
+    car_line.cars[0].location = 1
+    car_line.cars[0].status = 0
+    car_line.cars[1].location = 2
+    car_line.cars[1].status = 0
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 1
+    assert car_line.cars[0].status == 0
+    assert car_line.cars[1].location == 2
+    assert car_line.cars[1].status == 1
+
+    # 前に車いる/走っているステータスの場合、止まっている状態へ変える
+    car_line.cars[0].location = 1
+    car_line.cars[0].status = 1
+    car_line.cars[1].location = 2
+    car_line.cars[1].status = 0
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 1
+    assert car_line.cars[0].status == 0
+    assert car_line.cars[1].location == 2
+    assert car_line.cars[1].status == 1
+
+    # 前に車がいる/止まっているステータスの場合、位置も状態も変わらない
+    car_line.cars[0].location = 1
+    car_line.cars[0].status = 0
+    car_line.cars[1].location = 2
+    car_line.cars[1].status = 0
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 1
+    assert car_line.cars[0].status == 0
+    assert car_line.cars[1].location == 2
+    assert car_line.cars[1].status == 1
+
+    # 最後尾の考慮が正しいか
+    car_line.cars[0].location = 0
+    car_line.cars[0].status = 0
+    car_line.cars[1].location = 19
+    car_line.cars[1].status = 0
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 0
+    assert car_line.cars[0].status == 1
+    assert car_line.cars[1].location == 19
+    assert car_line.cars[1].status == 0
+
+    car_line.cars[0].location = 1
+    car_line.cars[0].status = 0
+    car_line.cars[1].location = 19
+    car_line.cars[1].status = 1
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 1
+    assert car_line.cars[0].status == 1
+    assert car_line.cars[1].location == 0
+    assert car_line.cars[1].status == 1
 
 
 def test_car_class():

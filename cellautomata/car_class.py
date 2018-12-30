@@ -27,32 +27,21 @@ class CarLine():
 
         # 各車のstatusをセットする
         # 前に車がいれば止まっている。いなければ、走っている状態とする
+
+        car_locations = [car.location for car in self.cars]
         for current_car in self.cars:
-            is_found_car_in_front = False
-            for next_car in self.cars:
-                # currentの位置が、末尾だった場合は、特殊対応
-                # サーキット場の車列としているため、nextの位置は、先頭になる
-                if current_car.location == self.length - 1:
-                    # current_car の先に車がいないとき
-                    if next_car.location != 0:
-                        continue
-
-                    # current_car の先に車がいるときは、進めない
+            if current_car.location == (self.length - 1):
+                if 0 in car_locations:
                     current_car.set_status(0)
-                    is_found_car_in_front = True
-                    break
-
-                # current_car の先に車がいないとき
-                if next_car.location != current_car.location + 1:
                     continue
 
-                # current_car の先に車がいるときは、進めない
-                current_car.set_status(0)
-                is_found_car_in_front = True
-                break
+                current_car.set_status(1)
 
-            # current_car の先に車がいないことがわかったので、進める
-            if not is_found_car_in_front:
+            else:
+                if (current_car.location + 1) in car_locations:
+                    current_car.set_status(0)
+                    continue
+
                 current_car.set_status(1)
 
     def advance(self):
@@ -76,7 +65,29 @@ class CarLine():
         # 前に車がいたらとまる。走っているステータスの場合は、止まるへ変える
         # いなかったら、走っているステータスに変える
         # 前に車がいない かつ、走っているステータスの場合、前に進むというケース
-        None
+        car_locations = [car.location for car in self.cars]
+        for current_car in self.cars:
+            if current_car.location == (self.length - 1):
+                if 0 in car_locations:
+                    current_car.set_status(0)
+                    continue
+
+                if current_car.status:
+                    current_car.location = 0
+                else:
+                    current_car.set_status(1)
+
+            else:
+                # 前に車がいた場合は進めない
+                if (current_car.location + 1) in car_locations:
+                    # 車はとまる
+                    current_car.set_status(0)
+                    continue
+
+                if current_car.status:
+                    current_car.location += 1
+                else:
+                    current_car.set_status(1)
 
     def print(self):
         line = [0] * self.length
