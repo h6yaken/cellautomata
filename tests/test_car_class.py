@@ -111,6 +111,16 @@ def test_car_line_class():
     assert car_line.cars[1].location == 0
     assert car_line.cars[1].status == 1
 
+    car_line.cars[0].location = 1
+    car_line.cars[0].status = 0
+    car_line.cars[1].location = 19
+    car_line.cars[1].status = 0
+    car_line.advance_slow_start()
+    assert car_line.cars[0].location == 1
+    assert car_line.cars[0].status == 1
+    assert car_line.cars[1].location == 19
+    assert car_line.cars[1].status == 1
+
 
 def test_car_class():
     car = car_class.Car()
