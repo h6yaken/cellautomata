@@ -14,6 +14,13 @@ def test_car_line_class():
     for car in car_line.cars:
         assert 0 <= car.location <= CAR_LINE_LENGTH - 1
 
+    # 車列を超える車の台数を指定された場合、車列を上限にする
+    CAR_LINE_LENGTH = 20
+    CAR_NUM = 30
+    car_line = car_class.CarLine(CAR_LINE_LENGTH, CAR_NUM)
+    assert car_line.length == CAR_LINE_LENGTH
+    assert car_line.num == CAR_LINE_LENGTH
+
     # advanceのテスト
     CAR_NUM = 2
     car_line = car_class.CarLine(CAR_LINE_LENGTH, CAR_NUM)

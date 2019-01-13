@@ -6,6 +6,10 @@ import random
 
 class CarLine():
     def __init__(self, length, num):
+        if length < num:
+            num = length
+            print("[WARNING] length < num. Set num = length")
+
         # 車列の長さ
         self.length = length
         # 車両の数
