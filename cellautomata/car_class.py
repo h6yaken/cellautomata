@@ -44,6 +44,8 @@ class CarLine():
 
                 current_car.set_status(1)
 
+        self.print()
+
     def advance(self):
         # 前に車がいたら止まる、いなかったら進む単純ケース
         car_locations = [car.location for car in self.cars]
@@ -90,16 +92,29 @@ class CarLine():
                     current_car.set_status(1)
 
     def print(self):
-        line = [0] * self.length
-        for car in self.cars:
-            line[car.location] = 1
-        print(line)
+        car_locations = [car.location for car in self.cars]
+        for i in range(self.length):
+            if i in car_locations:
+                print("□", end="")
+                continue
+            print(" ", end="")
+        print()
 
     def print_status(self):
         status_line = [""] * self.length
         for car in self.cars:
             status_line[car.location] = car.status
         print(status_line)
+
+    def run_simple_start(self, steps):
+        for var in range(steps):
+            self.advance()
+            self.print()
+
+    def run_slow_start(self, steps):
+        for var in range(steps):
+            self.advance_slow_start()
+            self.print()
 
 
 class Car():
