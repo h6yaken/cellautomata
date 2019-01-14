@@ -174,3 +174,23 @@ def show_graph_simple_start(CAR_LENGTH, steps):
     plt.ylabel("traffic volume")
 
     plt.show()
+
+
+def show_graph_slow_start(CAR_LENGTH, steps):
+    flow_rate_list = list()
+    for car_num in range(CAR_LENGTH + 1):
+        car_line = CarLine(CAR_LENGTH, car_num)
+        flow_rate = car_line.calc_flow_rate_slow_start(steps)
+        flow_rate_list.append(flow_rate)
+
+    sns.set()
+
+    x = [i / CAR_LENGTH for i in range(CAR_LENGTH + 1)]
+    y = flow_rate_list
+
+    plt.plot(x, y)
+    plt.title("car density and traffic volume")
+    plt.xlabel("car density")
+    plt.ylabel("traffic volume")
+
+    plt.show()
