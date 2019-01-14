@@ -199,8 +199,9 @@ def show_graph_slow_start(CAR_LENGTH, steps):
     plt.show()
 
 
-def show_scatter_plot_simple_start(CAR_LENGTH, steps):
+def show_scatter_plot_simple_start(CAR_LENGTH):
     flow_rate_list = list()
+    steps = CAR_LENGTH * 20  # 感覚的にこのくらいだと良いグラフが書ける
     for car_num in range(CAR_LENGTH + 1):
         for var in range(REPEAT_COUNT):
             car_line = CarLine(CAR_LENGTH, car_num)
@@ -223,8 +224,9 @@ def show_scatter_plot_simple_start(CAR_LENGTH, steps):
     plt.show()
 
 
-def show_scatter_plot_slow_start(CAR_LENGTH, steps):
+def show_scatter_plot_slow_start(CAR_LENGTH):
     flow_rate_list = list()
+    steps = CAR_LENGTH * 20  # 感覚的にこのくらいだと良いグラフが書ける
     for car_num in range(CAR_LENGTH + 1):
         for var in range(REPEAT_COUNT):
             car_line = CarLine(CAR_LENGTH, car_num)

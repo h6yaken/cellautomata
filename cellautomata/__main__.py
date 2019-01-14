@@ -15,4 +15,4 @@ if __name__ == '__main__':
     # car_line.run_simple_start(STEPS)
 
     # シンプルモデルの車両の密度と流量の関係のグラフを表示
-    car_class.show_scatter_plot_slow_start(CAR_LENGTH, STEPS)
+    car_class.show_scatter_plot_slow_start(CAR_LENGTH)
