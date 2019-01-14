@@ -6,6 +6,9 @@ import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 
+# 散布図描画用の繰り返し回数
+REPEAT_COUNT = 200
+
 
 class CarLine():
     def __init__(self, length, num):
@@ -189,6 +192,54 @@ def show_graph_slow_start(CAR_LENGTH, steps):
     y = flow_rate_list
 
     plt.plot(x, y)
+    plt.title("car density and traffic volume")
+    plt.xlabel("car density")
+    plt.ylabel("traffic volume")
+
+    plt.show()
+
+
+def show_scatter_plot_simple_start(CAR_LENGTH, steps):
+    flow_rate_list = list()
+    for car_num in range(CAR_LENGTH + 1):
+        for var in range(REPEAT_COUNT):
+            car_line = CarLine(CAR_LENGTH, car_num)
+            flow_rate = car_line.calc_flow_rate_simple_start(steps)
+            flow_rate_list.append(flow_rate)
+
+    sns.set()
+
+    x = [
+        i / CAR_LENGTH for i in range(CAR_LENGTH + 1)
+        for var in range(REPEAT_COUNT)
+    ]
+    y = flow_rate_list
+
+    plt.scatter(x, y)
+    plt.title("car density and traffic volume")
+    plt.xlabel("car density")
+    plt.ylabel("traffic volume")
+
+    plt.show()
+
+
+def show_scatter_plot_slow_start(CAR_LENGTH, steps):
+    flow_rate_list = list()
+    for car_num in range(CAR_LENGTH + 1):
+        for var in range(REPEAT_COUNT):
+            car_line = CarLine(CAR_LENGTH, car_num)
+            flow_rate = car_line.calc_flow_rate_slow_start(steps)
+            flow_rate_list.append(flow_rate)
+
+    sns.set()
+
+    x = [
+        i / CAR_LENGTH for i in range(CAR_LENGTH + 1)
+        for var in range(REPEAT_COUNT)
+    ]
+    y = flow_rate_list
+
+    plt.scatter(x, y)
     plt.title("car density and traffic volume")
     plt.xlabel("car density")
     plt.ylabel("traffic volume")
